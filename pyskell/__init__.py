@@ -15,16 +15,10 @@ def curry_(fn, known_args, new_args):
         return lambda x: curry_(fn, known_args + new_args, (x,))
 
 
-def curry(fn):
-    def curried(*args):
-        return curry_(fn, known_args=(), new_args=args)
-    return curried
-
-
-class currify:
+class curry:
     def __init__(self, fn):
         self.__name__ = fn.__name__
-        if type(fn) == currify:
+        if type(fn) == curry:
             self.fn = fn.fn
         else:
             self.fn = fn
@@ -34,28 +28,37 @@ class currify:
         if num_args <= 1:
             ret = self.fn(other)
             if isinstance(ret, types.FunctionType):
-                return currify(ret)
+                return curry(ret)
             else:
                 return ret
-        return currify(curry_(self.fn, known_args=(), new_args=(other,)))
+        return curry(curry_(self.fn, known_args=(), new_args=(other,)))
 
     def __call__(self, *args, **kwargs):
         return self.fn(*args, **kwargs)
 
 
 # credit: http://tomerfiliba.com/blog/Infix-Operators/
-class Infix(object):
+class infix(object):
     def __init__(self, fn):
         self.fn = fn
     def __or__(self, other):
         return self.fn(other)
     def __ror__(self, other):
-        return Infix(partial(self.fn, other))
+        return infix(partial(self.fn, other))
     def __call__(self, v1, v2):
         return self.fn(v1, v2)
 
 
-@Infix
-def infix_add(x, y):
-    return x + y
+def reduce_(fn, x, xs):
+    return x if not xs else reduce_(fn, x |fn| xs[0], xs[1:])
+
+
+@curry
+def reduce(fn, xs):
+    return reduce_(fn, xs[0], xs[1:])
+
+
+@infix
+def plus(a, b):
+    return a + b
 
