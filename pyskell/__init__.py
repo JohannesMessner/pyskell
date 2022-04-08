@@ -37,8 +37,8 @@ class curry:
         return self.fn(*args, **kwargs)
 
 
-# credit: http://tomerfiliba.com/blog/Infix-Operators/
 class infix(object):
+    # credit: http://tomerfiliba.com/blog/Infix-Operators/
     def __init__(self, fn):
         self.fn = fn
     def __or__(self, other):
@@ -49,13 +49,14 @@ class infix(object):
         return self.fn(v1, v2)
 
 
-def reduce_(fn, x, xs):
-    return x if not xs else reduce_(fn, x |fn| xs[0], xs[1:])
+@curry
+def fold(fn, x, xs):
+    return x if not xs else fold << fn << (x |fn| xs[0]) << xs[1:]
 
 
 @curry
 def reduce(fn, xs):
-    return reduce_(fn, xs[0], xs[1:])
+    return fold(fn, xs[0], xs[1:])
 
 
 @infix
