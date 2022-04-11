@@ -33,7 +33,7 @@ def plus(a, b):
 >>> 3
 ```
 
-**Functinal Programming!**
+**Functional Programming!**
 
 
 ```python
