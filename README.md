@@ -1,8 +1,8 @@
 # Stuck with Python but you actually want to use Haskell?
 
-This is a silly package that (ab)uses Python operator overloading to reproduce beloved features from functional programmin.
+This is a silly package that (ab)uses Python operator overloading to reproduce beloved features from functional programming.
 
-Cou can do:
+You can do:
 
 **Currying**
 
@@ -12,14 +12,14 @@ def f(a, b, c):
   return a + b + c
   
 f(1, 2, 3)
->>> 6
+Out[0]: 6
 
 g = f << 1
 g << 2 << 3
->>>  6
+Out[1]:  6
 
 f << 1 << 2 <<< 3
->>> 6
+Out[2]: 6
 ```
 
 **Infix Notation**
@@ -30,7 +30,7 @@ def plus(a, b):
   return a + b
   
 1 |plus| 2
->>> 3
+Out[0]: 3
 ```
 
 **Functional Programming!**
@@ -38,13 +38,13 @@ def plus(a, b):
 
 ```python
 @curry
-def fold(fn, x, xs):
+def foldl(fn, x, xs):
     return x if not xs else fold << fn << (x |fn| xs[0]) << xs[1:]
     
-sum = fold << plus << 0
+sum = foldl << plus << 0
 
 sum([1, 2, 3])
->>> 6
+Out[0]: 6
 ```
 
 Big **credit** goes to these guys:
