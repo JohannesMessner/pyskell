@@ -47,6 +47,12 @@ sum([1, 2, 3])
 Out[0]: 6
 ```
 
+## Installation
+
+```pip install pyskell```
+
+## Credit
+
 Big **credit** goes to these guys:
 - http://tomerfiliba.com/blog/Infix-Operators/
 - https://sagnibak.github.io/blog/python-is-haskell-currying/
