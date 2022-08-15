@@ -39,7 +39,7 @@ Out[0]: 3
 ```python
 @curry
 def foldl(fn, x, xs):
-    return x if not xs else fold << fn << (x |fn| xs[0]) << xs[1:]
+    return x if not xs else foldl << fn << (x |fn| xs[0]) << xs[1:]
     
 sum = foldl << plus << 0
 
